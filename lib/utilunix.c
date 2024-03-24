@@ -218,9 +218,16 @@ my_system_make_arg_array (int flags, const char *shell, char **execute_name)
         if (shell_token == NULL)
             *execute_name = g_strdup (shell);
         else
+        {
             *execute_name = g_strndup (shell, (gsize) (shell_token - shell));
+            shell_token++;
+        }
 
-        g_ptr_array_add (args_array, (gpointer) shell);
+        g_ptr_array_add (args_array, (gpointer) *execute_name);
+        if (shell_token != NULL)
+        {
+            g_ptr_array_add (args_array, (gpointer) shell_token);
+        }
     }
     return args_array;
 }
